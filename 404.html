@@ -1,9 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        (function() {
+            const visited = 'visited';
+            if (localStorage.getItem(visited)) {
+                const deathdate = new Date("2026-03-28");
+                const path = window.location.pathname + window.location.search + window.location.hash;
+                const currenthost = window.location.hostname;
+                function getsub(host) {
+                    host = host.split(':')[0];
+                    const mainDomain = 'coolsite.cv';
+                    if (host === mainDomain) return '';
+                    if (host.endsWith('.' + mainDomain)) {
+                        return host.slice(0, -mainDomain.length - 1);
+                    } return '';
+                }
+                const subdomain = getsub(currenthost);
+                let desthost = 'coolsite.cv';
+                if (subdomain) {
+                    desthost = subdomain + '.coolsite.cv';
+                }
+                const newurl = "https://" + desthost + path;
+                window.location.replace(newurl);
+                return;
+            } localStorage.setItem(visited, 'true');
+        })();
+    </script>
 
     <title>oops</title>
-    <link rel="icon" type="image/png" href="../../../../moved.png">
+    <link rel="icon" type="image/png" href="//pawing.cv/moved.png">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +39,7 @@
 
     <style>
         body {
-            background-image: url("../../../../greyclouds.webp");
+            background-image: url("//pawing.cv/greyclouds.webp");
             background-color: linear-gradient(135deg, hsla(180, 37%, 97%, 1) 0%, hsla(0, 0%, 88%, 1) 100%);
             background-size: cover; background-repeat: no-repeat;
             background-position: center center;
@@ -60,14 +86,33 @@
             const deathdate = new Date("2026-03-28");
             const today = new Date();
 
-            document.querySelector(".location").innerHTML = `<b>coolsite.cv${window.location.pathname}</b>`;
+            function getsub(host) {
+                host = host.split(':')[0];
+                const mainDomain = 'coolsite.cv';
+                if (host === mainDomain) return '';
+                if (host.endsWith('.' + mainDomain)) {
+                    return host.slice(0, -mainDomain.length - 1);
+                } return '';
+            }
+            const path = window.location.pathname + window.location.search + window.location.hash;
+            const currenthost = window.location.hostname;
+            const subdomain = getsub(currenthost);
+
+            let desthost = 'coolsite.cv';
+            let shownhost = 'coolsite.cv';
+            if (subdomain) {
+                desthost = subdomain + '.coolsite.cv';
+                shownhost = desthost;
+            }
+
+            document.querySelector(".location").innerHTML = `<b>${shownhost}${path}</b>`;
             document.querySelector(".until").textContent = Math.ceil((deathdate - today) / (1000 * 60 * 60 * 24));
 
             let countdown = 6.7;
             const countdownel = document.querySelector(".countdown");
             countdownel.textContent = countdown.toFixed(1);
 
-            const newurl = "https://coolsite.cv" + window.location.pathname;
+            const newurl = "https://" + desthost + path;
             document.querySelector(".location").href = newurl;
 
             function updatecountdown() {
