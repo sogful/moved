@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>oops</title>
+    <link rel="icon" type="image/png" href="../../../../moved.png">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="googlebot" content="index,follow">
+    <meta name="google" content="notranslate">
+
+    <style>
+        body {
+            background-image: url("../../../../greyclouds.webp");
+            background-color: linear-gradient(135deg, hsla(180, 37%, 97%, 1) 0%, hsla(0, 0%, 88%, 1) 100%);
+            background-size: cover; background-repeat: no-repeat;
+            background-position: center center;
+
+            width: 100vw; height: 100vh;
+            backdrop-filter: blur(8px);
+            overflow: hidden; padding: 0; margin: 0;
+
+            display: flex;
+            justify-content: center; align-items: center;
+            position: relative;
+        }
+
+        .page {
+            width: 70vw; height: 70vh;
+            display: flex; position: fixed;
+            flex-direction: column;
+            z-index: 1;
+
+            font-family: Arial, Helvetica, sans-serif;
+            font-stretch: condensed; letter-spacing: -0.04em;
+            color: black; font-size: 2em;
+        }
+        sup {opacity: 0.5}
+        :any-link {color: black; text-decoration-style: wavy}
+
+    </style>
+
+</head>
+<body>
+
+    <div class="page">
+        <h3>this page has moved!</h3>
+        <p>
+            it's now at <a class="location"></a>. 
+            this domain will stop working in <span class="until"></span> days.
+        </p> <br>
+        <sup>redirecting you there in <span class="countdown"></span> seconds..</sup>
+    </div>
+
+    <script>
+        (function() {
+
+            const deathdate = new Date("2026-03-28");
+            const today = new Date();
+
+            document.querySelector(".location").innerHTML = `<b>coolsite.cv${window.location.pathname}</b>`;
+            document.querySelector(".until").textContent = Math.ceil((deathdate - today) / (1000 * 60 * 60 * 24));
+
+            let countdown = 6.7;
+            const countdownel = document.querySelector(".countdown");
+            countdownel.textContent = countdown.toFixed(1);
+
+            const newurl = "https://coolsite.cv" + window.location.pathname;
+            document.querySelector(".location").href = newurl;
+
+            function updatecountdown() {
+                if (countdown > 0.1) {
+                    countdown -= 0.1;
+                    countdownel.textContent = countdown.toFixed(1);
+                    setTimeout(updatecountdown, 100);
+                } else {
+                    countdownel.textContent = "0.0";
+                    window.location.href = newurl;
+                }
+            }; setTimeout(updatecountdown, 100);
+        })();
+    </script>
+
+</body>
+</html>
